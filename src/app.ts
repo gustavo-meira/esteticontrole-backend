@@ -1,0 +1,24 @@
+import express, { Express } from 'express';
+import cors from 'cors';
+
+class App {
+  public app: Express;
+
+  constructor() {
+    this.app = express();
+    this.config();
+  }
+
+  private config(): void {
+    this.app.use(express.json());
+    this.app.use(cors());
+  }
+
+  public start(port: string | number): void {
+    this.app.listen(port, () => {
+      global.console.log(`[server]: running on port ${port}`);
+    });
+  }
+}
+
+export { App };
