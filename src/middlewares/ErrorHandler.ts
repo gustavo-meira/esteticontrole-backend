@@ -12,7 +12,7 @@ class ErrorHandler {
       res.status(error.statusCode).json({ message: error.message });
       return;
     }
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 }
 
