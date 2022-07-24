@@ -13,7 +13,7 @@ class ValidateSchema {
     const { error } = this.schema.validate(req.body);
 
     if (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(400).json({ message: error.message });
     }
 
     return next();
