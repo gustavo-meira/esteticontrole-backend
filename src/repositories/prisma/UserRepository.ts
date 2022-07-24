@@ -24,6 +24,10 @@ class UserRepository implements IUserRepository {
   async delete(id: string): Promise<UserType> {
     return this.prisma.delete({ where: { id } });
   }
+
+  async readByEmail(email: string): Promise<UserType | null> {
+    return this.prisma.findUnique({ where: { email } });
+  }
 }
 
 export { UserRepository };
