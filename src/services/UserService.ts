@@ -1,3 +1,4 @@
+import { ForbiddenError } from '../errors/ForbiddenError';
 import { IHashProvider } from '../providers/interfaces/IHashProvider';
 import { IJWTProvider } from '../providers/interfaces/IJWTProvider';
 import { IUUIDProvider } from '../providers/interfaces/IUUIDProvider';
@@ -29,6 +30,24 @@ class UserService implements IUserService {
     const userCreated = await this.userRepository.create({ ...user, id, password });
 
     const token = this.jwtProvider.generate({ id: userCreated.id });
+
+    return token;
+  }
+
+  async login(email: string, password: string): Promise<string> {
+    const user = await this.userRepository.readByEmail(email);
+
+    if (!user) {
+      throw new ForbiddenError('"email" or "password" invalid');
+    }
+
+    const isValidPassword = await this.hashProvider.compare(password, user.password);
+
+    if (!isValidPassword) {
+      throw new ForbiddenError('"email" or "password" invalid');
+    }
+
+    const token = this.jwtProvider.generate({ id: user.id });
 
     return token;
   }
