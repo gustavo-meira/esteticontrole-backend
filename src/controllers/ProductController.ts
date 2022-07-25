@@ -1,5 +1,4 @@
-import { NextFunction, Response } from 'express';
-import { RequestWithUser } from '../interfaces/RequestInterfaces';
+import { NextFunction, Request, Response } from 'express';
 import { IProductService } from '../services/IProductService';
 
 class ProductController {
@@ -11,9 +10,9 @@ class ProductController {
     this.create = this.create.bind(this);
   }
 
-  async create(req: RequestWithUser, res: Response, next: NextFunction) {
+  async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id: userId } = req.user as { id: string };
+      const { id: userId } = req.user;
       const { name, price, description } = req.body;
 
       const productId = await this.productService.create({
