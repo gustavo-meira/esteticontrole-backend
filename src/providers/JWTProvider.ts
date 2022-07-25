@@ -10,7 +10,7 @@ class JWTProvider implements IJWTProvider {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  decode<T>(token: string): T {
+  decode<T>(token: string): T | null {
     return jwt.decode(token) as any;
   }
 }
