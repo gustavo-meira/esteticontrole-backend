@@ -1,6 +1,5 @@
-import { NextFunction, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UnauthorizedError } from '../errors/UnauthorizedError';
-import { RequestWithUser } from '../interfaces/RequestInterfaces';
 import { IJWTProvider } from '../providers/interfaces/IJWTProvider';
 
 class VerifyToken {
@@ -12,7 +11,7 @@ class VerifyToken {
     this.handle = this.handle.bind(this);
   }
 
-  handle(req: RequestWithUser, _res: Response, next: NextFunction) {
+  handle(req: Request, _res: Response, next: NextFunction) {
     const { authorization: token } = req.headers;
 
     if (!token) {
