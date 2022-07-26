@@ -22,6 +22,12 @@ class ProductService implements IProductService {
 
     return productCreated.id as string;
   }
+
+  async readByUser(userId: string): Promise<ProductType[]> {
+    const products = await this.productRepository.readByUser(userId);
+
+    return products;
+  }
 }
 
 export { ProductService };

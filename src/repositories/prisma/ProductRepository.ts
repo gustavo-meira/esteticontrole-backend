@@ -24,6 +24,10 @@ class ProductRepository implements IProductRepository {
   async delete(id: string): Promise<ProductType> {
     return this.prisma.delete({ where: { id } });
   }
+
+  async readByUser(userId: string): Promise<ProductType[]> {
+    return this.prisma.findMany({ where: { userId } });
+  }
 }
 
 export { ProductRepository };
