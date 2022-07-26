@@ -24,4 +24,9 @@ productRouter.post(
   productController.create,
 );
 
+productRouter.get(
+  '/',
+  productController.readByUser,
+);
+
 export { productRouter };
