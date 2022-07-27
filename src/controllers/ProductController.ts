@@ -49,14 +49,16 @@ class ProductController {
       const { id: productId } = req.params;
       const { name, price, description } = req.body;
 
-      const productUpdated = await this.productService.update(productId, {
+      const { id } = await this.productService.update(productId, {
         name,
         price,
         description,
         userId,
       });
 
-      res.status(200).json(productUpdated);
+      res.status(200).json({
+        name, description, price, id,
+      });
     } catch (err) {
       next(err);
     }
