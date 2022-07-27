@@ -37,7 +37,14 @@ class ProductController {
 
       const products = await this.productService.readByUser(userId);
 
-      res.status(200).json(products);
+      const productsWithoutUser = products.map((product) => ({
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        id: product.id,
+      }));
+
+      res.status(200).json(productsWithoutUser);
     } catch (err) {
       next(err);
     }
