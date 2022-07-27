@@ -29,4 +29,10 @@ productRouter.get(
   productController.readByUser,
 );
 
+productRouter.put(
+  '/:id',
+  validateProductCreate.handle,
+  productController.update,
+);
+
 export { productRouter };

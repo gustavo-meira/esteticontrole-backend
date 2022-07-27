@@ -9,6 +9,7 @@ class ProductController {
 
     this.create = this.create.bind(this);
     this.readByUser = this.readByUser.bind(this);
+    this.update = this.update.bind(this);
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
@@ -36,6 +37,25 @@ class ProductController {
       const products = await this.productService.readByUser(userId);
 
       res.status(200).json(products);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id: userId } = req.user;
+      const { id: productId } = req.params;
+      const { name, price, description } = req.body;
+
+      const productUpdated = await this.productService.update(productId, {
+        name,
+        price,
+        description,
+        userId,
+      });
+
+      res.status(200).json(productUpdated);
     } catch (err) {
       next(err);
     }
