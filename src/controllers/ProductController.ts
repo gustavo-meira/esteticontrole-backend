@@ -10,6 +10,7 @@ class ProductController {
     this.create = this.create.bind(this);
     this.readByUser = this.readByUser.bind(this);
     this.update = this.update.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
@@ -56,6 +57,23 @@ class ProductController {
       });
 
       res.status(200).json(productUpdated);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id: userId } = req.user;
+      const { id: productId } = req.params;
+
+      const {
+        name, description, price, id,
+      } = await this.productService.delete(productId, userId);
+
+      res.status(200).json({
+        name, description, price, id,
+      });
     } catch (err) {
       next(err);
     }

@@ -46,6 +46,22 @@ class ProductService implements IProductService {
 
     return productUpdated;
   }
+
+  async delete(id: string, userId: string): Promise<ProductType> {
+    const productFound = await this.productRepository.readOne(id);
+
+    if (!productFound) {
+      throw new NotFoundError('"product" not found');
+    }
+
+    if (productFound.userId !== userId) {
+      throw new ForbiddenError('You are not allowed to delete this product');
+    }
+
+    const productDeleted = await this.productRepository.delete(id);
+
+    return productDeleted;
+  }
 }
 
 export { ProductService };

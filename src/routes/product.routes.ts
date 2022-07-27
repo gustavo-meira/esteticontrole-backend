@@ -35,4 +35,9 @@ productRouter.put(
   productController.update,
 );
 
+productRouter.delete(
+  '/:id',
+  productController.delete,
+);
+
 export { productRouter };
