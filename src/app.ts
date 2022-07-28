@@ -3,6 +3,7 @@ import cors from 'cors';
 import { userRouter } from './routes/user.routes';
 import { errorHandler } from './middlewares/ErrorHandler';
 import { productRouter } from './routes/product.routes';
+import { clientRouter } from './routes/client.routes';
 
 class App {
   public app: Express;
@@ -21,6 +22,7 @@ class App {
   private routes(): void {
     this.app.use('/users', userRouter);
     this.app.use('/products', productRouter);
+    this.app.use('/clients', clientRouter);
     this.app.use(errorHandler.handle);
   }
 
