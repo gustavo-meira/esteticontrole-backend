@@ -16,6 +16,7 @@ model User {
   email    String    @unique
   password String
   products Product[]
+  clients  Client[]
 }
 
 model Product {
@@ -25,4 +26,14 @@ model Product {
   description String?
   user        User    @relation(fields: [userId], references: [id])
   userId      String
+}
+
+model Client {
+  id             String   @id @default(uuid())
+  name           String
+  birthDate      DateTime
+  telephone      String
+  recommendation String?
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
 }
