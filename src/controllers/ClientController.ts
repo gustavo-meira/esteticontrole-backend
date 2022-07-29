@@ -10,6 +10,7 @@ class ClientController {
     this.create = this.create.bind(this);
     this.readByUser = this.readByUser.bind(this);
     this.update = this.update.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   public async create(req: Request, res: Response, next: NextFunction) {
@@ -68,6 +69,23 @@ class ClientController {
         recommendation,
         userId,
       });
+
+      res.status(200).json({
+        name, birthDate, telephone, recommendation, id,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  public async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id: userId } = req.user;
+      const { id: clientId } = req.params;
+
+      const {
+        name, birthDate, telephone, recommendation, id,
+      } = await this.clientService.delete(clientId, userId);
 
       res.status(200).json({
         name, birthDate, telephone, recommendation, id,
