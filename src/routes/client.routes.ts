@@ -14,11 +14,17 @@ const clientController = new ClientController(clientService);
 const validateClientCreate = new ValidateSchema(clientCreateSchema);
 const verifyToken = new VerifyToken(jwtProvider);
 
+clientRouter.use(verifyToken.handle);
+
 clientRouter.post(
   '/',
-  verifyToken.handle,
   validateClientCreate.handle,
   clientController.create,
+);
+
+clientRouter.get(
+  '/',
+  clientController.readByUser,
 );
 
 export { clientRouter };
