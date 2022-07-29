@@ -27,4 +27,10 @@ clientRouter.get(
   clientController.readByUser,
 );
 
+clientRouter.put(
+  '/:id',
+  validateClientCreate.handle,
+  clientController.update,
+);
+
 export { clientRouter };

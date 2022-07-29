@@ -9,6 +9,7 @@ class ClientController {
 
     this.create = this.create.bind(this);
     this.readByUser = this.readByUser.bind(this);
+    this.update = this.update.bind(this);
   }
 
   public async create(req: Request, res: Response, next: NextFunction) {
@@ -47,6 +48,30 @@ class ClientController {
       }));
 
       res.status(200).json(clientsWithoutUser);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  public async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id: userId } = req.user;
+      const { id: clientId } = req.params;
+      const {
+        name, birthDate, telephone, recommendation,
+      } = req.body;
+
+      const { id } = await this.clientService.update(clientId, {
+        name,
+        birthDate,
+        telephone,
+        recommendation,
+        userId,
+      });
+
+      res.status(200).json({
+        name, birthDate, telephone, recommendation, id,
+      });
     } catch (err) {
       next(err);
     }
