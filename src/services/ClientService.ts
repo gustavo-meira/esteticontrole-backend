@@ -34,6 +34,16 @@ class ClientService implements IClientService {
   }
 
   public async update(id: string, client: ClientType): Promise<ClientType> {
+    const clientFounded = await this.clientRepository.readOne(id);
+
+    if (!clientFounded) {
+      throw new NotFoundError('"client" not found');
+    }
+
+    if (clientFounded.userId !== client.userId) {
+      throw new ForbiddenError('You are not allowed to update this client');
+    }
+
     const birthDate = new Date(client.birthDate);
 
     const clientUpdated = await this.clientRepository.update(id, { ...client, birthDate });
