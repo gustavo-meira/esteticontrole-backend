@@ -24,6 +24,12 @@ class ClientService implements IClientService {
 
     return clientCreated.id as string;
   }
+
+  public async readByUser(userId: string): Promise<ClientType[]> {
+    const clients = await this.clientRepository.readByUser(userId);
+
+    return clients;
+  }
 }
 
 export { ClientService };
