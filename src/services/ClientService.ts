@@ -1,3 +1,5 @@
+import { ForbiddenError } from '../errors/ForbiddenError';
+import { NotFoundError } from '../errors/NotFoundError';
 import { IUUIDProvider } from '../providers/interfaces/IUUIDProvider';
 import { IClientRepository } from '../repositories/IClientRepository';
 import { ClientType } from '../types/ClientType';
@@ -32,11 +34,37 @@ class ClientService implements IClientService {
   }
 
   public async update(id: string, client: ClientType): Promise<ClientType> {
+    const clientFounded = await this.clientRepository.readOne(id);
+
+    if (!clientFounded) {
+      throw new NotFoundError('"client" not found');
+    }
+
+    if (clientFounded.userId !== client.userId) {
+      throw new ForbiddenError('You are not allowed to update this client');
+    }
+
     const birthDate = new Date(client.birthDate);
 
     const clientUpdated = await this.clientRepository.update(id, { ...client, birthDate });
 
     return clientUpdated;
+  }
+
+  public async delete(id: string, userId: string): Promise<ClientType> {
+    const clientFounded = await this.clientRepository.readOne(id);
+
+    if (!clientFounded) {
+      throw new NotFoundError('"client" not found');
+    }
+
+    if (clientFounded.userId !== userId) {
+      throw new ForbiddenError('You are not allowed to delete this client');
+    }
+
+    const clientDeleted = await this.clientRepository.delete(id);
+
+    return clientDeleted;
   }
 }
 

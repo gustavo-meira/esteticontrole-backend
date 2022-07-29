@@ -33,4 +33,9 @@ clientRouter.put(
   clientController.update,
 );
 
+clientRouter.delete(
+  '/:id',
+  clientController.delete,
+);
+
 export { clientRouter };
