@@ -24,6 +24,10 @@ class ClientRepository implements IClientRepository {
   delete(id: string): Promise<ClientType> {
     return this.prisma.delete({ where: { id } });
   }
+
+  readByUser(userId: string): Promise<ClientType[]> {
+    return this.prisma.findMany({ where: { userId } });
+  }
 }
 
 export { ClientRepository };
