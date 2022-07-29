@@ -30,6 +30,14 @@ class ClientService implements IClientService {
 
     return clients;
   }
+
+  public async update(id: string, client: ClientType): Promise<ClientType> {
+    const birthDate = new Date(client.birthDate);
+
+    const clientUpdated = await this.clientRepository.update(id, { ...client, birthDate });
+
+    return clientUpdated;
+  }
 }
 
 export { ClientService };
