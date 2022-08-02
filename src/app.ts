@@ -4,6 +4,7 @@ import { userRouter } from './routes/user.routes';
 import { errorHandler } from './middlewares/ErrorHandler';
 import { productRouter } from './routes/product.routes';
 import { clientRouter } from './routes/client.routes';
+import { schedulingRouter } from './routes/scheduling.routes';
 
 class App {
   public app: Express;
@@ -23,6 +24,7 @@ class App {
     this.app.use('/users', userRouter);
     this.app.use('/products', productRouter);
     this.app.use('/clients', clientRouter);
+    this.app.use('/schedules', schedulingRouter);
     this.app.use(errorHandler.handle);
   }
 
