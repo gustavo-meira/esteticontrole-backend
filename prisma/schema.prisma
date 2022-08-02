@@ -11,29 +11,46 @@ datasource db {
 }
 
 model User {
-  id       String    @id @default(uuid())
-  name     String
-  email    String    @unique
-  password String
-  products Product[]
-  clients  Client[]
+  id        String       @id @default(uuid())
+  name      String
+  email     String       @unique
+  password  String
+  products  Product[]
+  clients   Client[]
+  schedules Scheduling[]
 }
 
 model Product {
-  id          String  @id @default(uuid())
+  id          String       @id @default(uuid())
   name        String
   price       Float
   description String?
-  user        User    @relation(fields: [userId], references: [id])
+  user        User         @relation(fields: [userId], references: [id])
   userId      String
+  schedules   Scheduling[]
 }
 
 model Client {
-  id             String   @id @default(uuid())
+  id             String       @id @default(uuid())
   name           String
   birthDate      DateTime
   telephone      String
   recommendation String?
-  user           User     @relation(fields: [userId], references: [id])
+  user           User         @relation(fields: [userId], references: [id])
   userId         String
+  schedules      Scheduling[]
+}
+
+model Scheduling {
+  id           String   @id @default(uuid())
+  date         DateTime
+  duration     Int
+  paid         Boolean
+  note         String?
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String
+  client       Client   @relation(fields: [clientId], references: [id])
+  clientId     String
+  product      Product  @relation(fields: [productId], references: [id])
+  productId    String
 }
